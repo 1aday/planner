@@ -351,11 +351,11 @@ export default function Home() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-[#FDF2E7] p-4">
+    <div className="flex justify-center items-center min-h-screen w-full bg-[#FFF5F5] p-4">
       <div className="flex flex-col lg:flex-row max-w-6xl w-full gap-6">
         {/* Left side - CSV Input area */}
-        <div className="lg:flex-1 bg-white/90 rounded-xl shadow-lg flex flex-col overflow-hidden border border-[#E1D4C4]">
-          <div className="bg-[#E1D4C4] p-2 text-center text-[#3A3A3A]">
+        <div className="lg:flex-1 bg-white/90 rounded-xl shadow-lg flex flex-col overflow-hidden border border-[#FFE0E0]">
+          <div className="bg-[#FFE0E0] p-2 text-center text-[#3A3A3A]">
             <h2 className="text-xl font-semibold tracking-tight">Import Workshop Schedule</h2>
           </div>
           <div className="flex-grow p-4 flex flex-col gap-4 overflow-y-auto">
@@ -367,7 +367,7 @@ export default function Home() {
                 </label>
                 {inputCollapsed && availableDays.length > 0 && (
                   <button 
-                    className="text-xs text-[#7A6550] hover:underline"
+                    className="text-xs text-[#FF9090] hover:underline"
                     onClick={() => setInputCollapsed(false)}
                   >
                     Edit Input
@@ -379,25 +379,25 @@ export default function Home() {
                 <>
                   <div className="flex gap-2 items-center">
                     <button
-                      className="text-xs text-[#7A6550] hover:underline"
+                      className="text-xs text-[#FF9090] hover:underline"
                       onClick={() => setCsvInput(sampleTwoDays)}
                     >
                       2 Days Example
                     </button>
                     <button
-                      className="text-xs text-[#7A6550] hover:underline"
+                      className="text-xs text-[#FF9090] hover:underline"
                       onClick={() => setCsvInput(sampleThreeDays)}
                     >
                       3 Days Example
                     </button>
                     <button
-                      className="text-xs text-[#7A6550] hover:underline"
+                      className="text-xs text-[#FF9090] hover:underline"
                       onClick={() => setCsvInput(sampleDayPerLine)}
                     >
                       Day-Per-Line Format
                     </button>
                     <button
-                      className="text-xs text-[#7A6550] hover:underline"
+                      className="text-xs text-[#FF9090] hover:underline"
                       onClick={() => setCsvInput("")}
                     >
                       Clear
@@ -405,7 +405,7 @@ export default function Home() {
                   </div>
                   <textarea 
                     id="csvInput" 
-                    className="p-2 border border-[#E1D4C4] rounded-md h-64 resize-none focus:outline-none focus:ring-1 focus:ring-[#C9B6A5] font-mono text-sm"
+                    className="p-2 border border-[#FFE0E0] rounded-md h-64 resize-none focus:outline-none focus:ring-1 focus:ring-[#FFD0D0] font-mono text-sm"
                     placeholder="Paste your workshop schedule data here..."
                     value={csvInput}
                     onChange={(e) => setCsvInput(e.target.value)}
@@ -414,7 +414,7 @@ export default function Home() {
               )}
               
               {inputCollapsed && csvInput && (
-                <div className="bg-gray-50 border border-[#E1D4C4] rounded-md p-2 text-sm font-mono line-clamp-3 text-gray-600 cursor-pointer" onClick={() => setInputCollapsed(false)}>
+                <div className="bg-gray-50 border border-[#FFE0E0] rounded-md p-2 text-sm font-mono line-clamp-3 text-gray-600 cursor-pointer" onClick={() => setInputCollapsed(false)}>
                   {csvInput.split('\n').slice(0, 3).join('\n')}
                   {csvInput.split('\n').length > 3 && '...'}
                 </div>
@@ -423,7 +423,7 @@ export default function Home() {
             
             {!inputCollapsed && (
               <button 
-                className="mt-2 bg-[#C9B6A5] text-[#3A3A3A] py-2 px-4 rounded-md hover:bg-[#BCA895] transition-colors font-medium"
+                className="mt-2 bg-[#FFD0D0] text-[#3A3A3A] py-2 px-4 rounded-md hover:bg-[#FFC0C0] transition-colors font-medium"
                 onClick={parseCSV}
                 disabled={!csvInput.trim()}
               >
@@ -435,11 +435,11 @@ export default function Home() {
               <div className="space-y-4">
                 {/* Display Settings Section - Always visible once schedule is generated */}
                 {inputCollapsed && (
-                  <div className="border-t border-[#E1D4C4] pt-4">
+                  <div className="border-t border-[#FFE0E0] pt-4">
                     <div className="flex justify-between items-center mb-3">
                       <h3 className="font-medium text-[#3A3A3A]">Display Settings</h3>
                       <button
-                        className="text-xs text-[#7A6550] hover:underline"
+                        className="text-xs text-[#FF9090] hover:underline"
                         onClick={() => setShowDisplaySettings(!showDisplaySettings)}
                       >
                         {showDisplaySettings ? "Hide" : "Show"}
@@ -448,20 +448,20 @@ export default function Home() {
                     
                     {showDisplaySettings && (
                       <div className="flex flex-col gap-2">
-                        <div className="flex flex-col gap-1 border-b border-[#E1D4C4] pb-2 mb-1">
-                          <label className="text-xs text-[#7A6550] font-medium">All Workshop Text Size</label>
+                        <div className="flex flex-col gap-1 border-b border-[#FFE0E0] pb-2 mb-1">
+                          <label className="text-xs text-[#FF9090] font-medium">All Workshop Text Size</label>
                           <div className="flex items-center">
                             <button
-                              className="p-1 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                              className="p-1 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                               onClick={decreaseBothFontSizes}
                             >
                               <Minus size={14} />
                             </button>
-                            <div className="px-2 bg-white border-y border-[#E1D4C4] flex-1 text-center text-sm">
+                            <div className="px-2 bg-white border-y border-[#FFE0E0] flex-1 text-center text-sm">
                               {getBothFontSizesLevel()}
                             </div>
                             <button
-                              className="p-1 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                              className="p-1 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                               onClick={increaseBothFontSizes}
                             >
                               <Plus size={14} />
@@ -470,8 +470,8 @@ export default function Home() {
                         </div>
                         
                         {/* Background Image Upload */}
-                        <div className="flex flex-col gap-1 border-b border-[#E1D4C4] pb-2 mb-1">
-                          <label className="text-xs text-[#7A6550] font-medium">Background Image</label>
+                        <div className="flex flex-col gap-1 border-b border-[#FFE0E0] pb-2 mb-1">
+                          <label className="text-xs text-[#FF9090] font-medium">Background Image</label>
                           <div className="flex items-center gap-2">
                             <div className="relative flex-1">
                               <input
@@ -481,19 +481,19 @@ export default function Home() {
                                 className="absolute inset-0 opacity-0 cursor-pointer z-10"
                                 disabled={uploadingImage}
                               />
-                              <div className="w-full py-1 px-2 text-xs border border-[#E1D4C4] rounded-md bg-white text-[#3A3A3A] flex justify-center items-center">
+                              <div className="w-full py-1 px-2 text-xs border border-[#FFE0E0] rounded-md bg-white text-[#3A3A3A] flex justify-center items-center">
                                 {uploadingImage ? 'Uploading...' : 'Upload Custom Image'}
                               </div>
                             </div>
                             <button
-                              className="py-1 px-2 text-xs border border-[#E1D4C4] rounded-md bg-[#F5EBE0] text-[#7A6550] hover:bg-[#E1D4C4]"
+                              className="py-1 px-2 text-xs border border-[#FFE0E0] rounded-md bg-[#FFF5F5] text-[#FF9090] hover:bg-[#FFE0E0]"
                               onClick={resetBackground}
                               disabled={backgroundImage === '/backgorund.png'}
                             >
                               Reset
                             </button>
                           </div>
-                          <div className="text-[10px] text-[#7A6550] mt-0.5">
+                          <div className="text-[10px] text-[#FF9090] mt-0.5">
                             Recommended size: 1080×675px, max 5MB
                           </div>
                         </div>
@@ -502,10 +502,10 @@ export default function Home() {
                         <div className="grid grid-cols-2 gap-x-2 gap-y-1.5">
                           {/* Day Header Font Size */}
                           <div className="flex flex-col gap-0.5">
-                            <label className="text-[10px] text-[#7A6550]">Day Header Size</label>
+                            <label className="text-[10px] text-[#FF9090]">Day Header Size</label>
                             <div className="flex items-center">
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                                 onClick={() => setHeaderFontSize(current => 
                                   current === "text-lg" ? "text-lg" : 
                                   current === "text-xl" ? "text-lg" : "text-xl"
@@ -513,12 +513,12 @@ export default function Home() {
                               >
                                 <Minus size={12} />
                               </button>
-                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                              <div className="px-1 bg-white border-y border-[#FFE0E0] flex-1 text-center text-xs">
                                 {headerFontSize === "text-lg" ? "Small" : 
                                  headerFontSize === "text-xl" ? "Medium" : "Large"}
                               </div>
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                                 onClick={() => setHeaderFontSize(current => 
                                   current === "text-lg" ? "text-xl" : 
                                   current === "text-xl" ? "text-2xl" : "text-2xl"
@@ -531,10 +531,10 @@ export default function Home() {
 
                           {/* Day Header Font Weight */}
                           <div className="flex flex-col gap-0.5">
-                            <label className="text-[10px] text-[#7A6550]">Day Header Weight</label>
+                            <label className="text-[10px] text-[#FF9090]">Day Header Weight</label>
                             <div className="flex items-center">
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                                 onClick={() => setHeaderWeight(current => 
                                   current === "font-normal" ? "font-normal" : 
                                   current === "font-medium" ? "font-normal" : 
@@ -543,13 +543,13 @@ export default function Home() {
                               >
                                 <Minus size={12} />
                               </button>
-                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                              <div className="px-1 bg-white border-y border-[#FFE0E0] flex-1 text-center text-xs">
                                 {headerWeight === "font-normal" ? "Normal" : 
                                  headerWeight === "font-medium" ? "Medium" : 
                                  headerWeight === "font-semibold" ? "Semibold" : "Bold"}
                               </div>
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                                 onClick={() => setHeaderWeight(current => 
                                   current === "font-normal" ? "font-medium" : 
                                   current === "font-medium" ? "font-semibold" : 
@@ -563,10 +563,10 @@ export default function Home() {
 
                           {/* Title Font Size */}
                           <div className="flex flex-col gap-0.5">
-                            <label className="text-[10px] text-[#7A6550]">Title Size</label>
+                            <label className="text-[10px] text-[#FF9090]">Title Size</label>
                             <div className="flex items-center">
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                                 onClick={() => setTitleFontSize(current => 
                                   current === "text-xs" ? "text-xs" : 
                                   current === "text-sm" ? "text-xs" : "text-sm"
@@ -574,12 +574,12 @@ export default function Home() {
                               >
                                 <Minus size={12} />
                               </button>
-                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                              <div className="px-1 bg-white border-y border-[#FFE0E0] flex-1 text-center text-xs">
                                 {titleFontSize === "text-xs" ? "Small" : 
                                  titleFontSize === "text-sm" ? "Medium" : "Large"}
                               </div>
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                                 onClick={() => setTitleFontSize(current => 
                                   current === "text-xs" ? "text-sm" : 
                                   current === "text-sm" ? "text-base" : "text-base"
@@ -592,10 +592,10 @@ export default function Home() {
 
                           {/* Title Weight */}
                           <div className="flex flex-col gap-0.5">
-                            <label className="text-[10px] text-[#7A6550]">Title Weight</label>
+                            <label className="text-[10px] text-[#FF9090]">Title Weight</label>
                             <div className="flex items-center">
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                                 onClick={() => setTitleWeight(current => 
                                   current === "font-normal" ? "font-normal" : 
                                   current === "font-medium" ? "font-normal" : 
@@ -604,13 +604,13 @@ export default function Home() {
                               >
                                 <Minus size={12} />
                               </button>
-                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                              <div className="px-1 bg-white border-y border-[#FFE0E0] flex-1 text-center text-xs">
                                 {titleWeight === "font-normal" ? "Normal" : 
                                  titleWeight === "font-medium" ? "Medium" : 
                                  titleWeight === "font-semibold" ? "Semibold" : "Bold"}
                               </div>
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                                 onClick={() => setTitleWeight(current => 
                                   current === "font-normal" ? "font-medium" : 
                                   current === "font-medium" ? "font-semibold" : 
@@ -624,10 +624,10 @@ export default function Home() {
 
                           {/* Time Font Size */}
                           <div className="flex flex-col gap-0.5">
-                            <label className="text-[10px] text-[#7A6550]">Time Size</label>
+                            <label className="text-[10px] text-[#FF9090]">Time Size</label>
                             <div className="flex items-center">
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                                 onClick={() => setTimeFontSize(current => 
                                   current === "text-[10px]" ? "text-[10px]" : 
                                   current === "text-xs" ? "text-[10px]" : "text-xs"
@@ -635,12 +635,12 @@ export default function Home() {
                               >
                                 <Minus size={12} />
                               </button>
-                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                              <div className="px-1 bg-white border-y border-[#FFE0E0] flex-1 text-center text-xs">
                                 {timeFontSize === "text-[10px]" ? "Small" : 
                                  timeFontSize === "text-xs" ? "Medium" : "Large"}
                               </div>
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                                 onClick={() => setTimeFontSize(current => 
                                   current === "text-[10px]" ? "text-xs" : 
                                   current === "text-xs" ? "text-sm" : "text-sm"
@@ -653,10 +653,10 @@ export default function Home() {
 
                           {/* Time Weight */}
                           <div className="flex flex-col gap-0.5">
-                            <label className="text-[10px] text-[#7A6550]">Time Weight</label>
+                            <label className="text-[10px] text-[#FF9090]">Time Weight</label>
                             <div className="flex items-center">
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                                 onClick={() => setTimeWeight(current => 
                                   current === "font-normal" ? "font-normal" : 
                                   current === "font-medium" ? "font-normal" : "font-medium"
@@ -664,12 +664,12 @@ export default function Home() {
                               >
                                 <Minus size={12} />
                               </button>
-                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                              <div className="px-1 bg-white border-y border-[#FFE0E0] flex-1 text-center text-xs">
                                 {timeWeight === "font-normal" ? "Normal" : 
                                  timeWeight === "font-medium" ? "Medium" : "Semibold"}
                               </div>
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                                 onClick={() => setTimeWeight(current => 
                                   current === "font-normal" ? "font-medium" : 
                                   current === "font-medium" ? "font-semibold" : "font-semibold"
@@ -682,10 +682,10 @@ export default function Home() {
 
                           {/* Item Spacing */}
                           <div className="flex flex-col gap-0.5">
-                            <label className="text-[10px] text-[#7A6550]">Item Spacing</label>
+                            <label className="text-[10px] text-[#FF9090]">Item Spacing</label>
                             <div className="flex items-center">
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                                 onClick={() => setItemSpacing(current => 
                                   current === "gap-0.5" ? "gap-0.5" : 
                                   current === "gap-1" ? "gap-0.5" : "gap-1"
@@ -693,12 +693,12 @@ export default function Home() {
                               >
                                 <Minus size={12} />
                               </button>
-                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                              <div className="px-1 bg-white border-y border-[#FFE0E0] flex-1 text-center text-xs">
                                 {itemSpacing === "gap-0.5" ? "Compact" : 
                                  itemSpacing === "gap-1" ? "Normal" : "Spacious"}
                               </div>
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                                 onClick={() => setItemSpacing(current => 
                                   current === "gap-0.5" ? "gap-1" : 
                                   current === "gap-1" ? "gap-2" : "gap-2"
@@ -711,10 +711,10 @@ export default function Home() {
 
                           {/* Item Padding */}
                           <div className="flex flex-col gap-0.5">
-                            <label className="text-[10px] text-[#7A6550]">Item Padding</label>
+                            <label className="text-[10px] text-[#FF9090]">Item Padding</label>
                             <div className="flex items-center">
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                                 onClick={() => setItemPadding(current => 
                                   current === "py-0.5 px-1" ? "py-0.5 px-1" : 
                                   current === "py-1 px-2" ? "py-0.5 px-1" : "py-1 px-2"
@@ -722,12 +722,12 @@ export default function Home() {
                               >
                                 <Minus size={12} />
                               </button>
-                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                              <div className="px-1 bg-white border-y border-[#FFE0E0] flex-1 text-center text-xs">
                                 {itemPadding === "py-0.5 px-1" ? "Compact" : 
                                  itemPadding === "py-1 px-2" ? "Normal" : "Spacious"}
                               </div>
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                                 onClick={() => setItemPadding(current => 
                                   current === "py-0.5 px-1" ? "py-1 px-2" : 
                                   current === "py-1 px-2" ? "py-1.5 px-2.5" : "py-1.5 px-2.5"
@@ -740,10 +740,10 @@ export default function Home() {
 
                           {/* Section Spacing */}
                           <div className="flex flex-col gap-0.5">
-                            <label className="text-[10px] text-[#7A6550]">Section Spacing</label>
+                            <label className="text-[10px] text-[#FF9090]">Section Spacing</label>
                             <div className="flex items-center">
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
                                 onClick={() => setSectionSpacing(current => 
                                   current === "mb-2" ? "mb-2" : 
                                   current === "mb-3" ? "mb-2" : "mb-3"
@@ -751,12 +751,12 @@ export default function Home() {
                               >
                                 <Minus size={12} />
                               </button>
-                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                              <div className="px-1 bg-white border-y border-[#FFE0E0] flex-1 text-center text-xs">
                                 {sectionSpacing === "mb-2" ? "Compact" : 
                                  sectionSpacing === "mb-3" ? "Normal" : "Spacious"}
                               </div>
                               <button
-                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                className="p-0.5 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                                 onClick={() => setSectionSpacing(current => 
                                   current === "mb-2" ? "mb-3" : 
                                   current === "mb-3" ? "mb-4" : "mb-4"
@@ -781,7 +781,7 @@ export default function Home() {
                       ? "bg-green-100 text-green-800 border border-green-200"
                       : downloadStatus === "error"
                       ? "bg-red-100 text-red-800 border border-red-200"
-                      : "bg-[#E1D4C4] text-[#3A3A3A] hover:bg-[#D1C4B4]"
+                      : "bg-[#FFD0D0] text-[#3A3A3A] hover:bg-[#FFC0C0]"
                   }`}
                   onClick={downloadScheduleAsPNG}
                   disabled={downloadStatus === "downloading"}
@@ -930,9 +930,9 @@ function WorkshopItem({
   timeWeight = "font-normal"
 }: WorkshopItemProps) {
   return (
-    <div className={`bg-white/90 rounded-md border border-[#E1D4C4] ${padding} flex flex-col items-center text-center`}>
+    <div className={`bg-white/90 rounded-md border border-[#FFE0E0] ${padding} flex flex-col items-center text-center`}>
       <h3 className={`${titleSize} ${titleWeight} text-[#3A3A3A] leading-tight`}>{title}</h3>
-      <p className={`${timeSize} ${timeWeight} text-[#7A6550]`}>{time}</p>
+      <p className={`${timeSize} ${timeWeight} text-[#FF9090]`}>{time}</p>
     </div>
   );
 }
