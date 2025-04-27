@@ -284,18 +284,18 @@ export default function Home() {
           }}
         >
           {availableDays.length > 0 ? (
-            <div className="grid grid-cols-2 gap-2 h-full p-2">
+            <div className="grid grid-cols-2 gap-3 h-full p-3">
               {/* Left column - can contain multiple days */}
               <div className="h-full flex flex-col">
                 {columnDays.left.map((dayKey) => (
-                  <div key={dayKey} className="mb-2 last:mb-0">
-                    <div className="text-center mb-1">
-                      <h2 className="text-lg font-serif text-[#3A3A3A]">
+                  <div key={dayKey} className="mb-3 last:mb-0">
+                    <div className="text-center mb-1.5">
+                      <h2 className="text-xl font-serif text-[#3A3A3A]">
                         {formatDayName(dayKey)}
                       </h2>
                     </div>
                     
-                    <div className="flex flex-col gap-[2px]">
+                    <div className="flex flex-col gap-1">
                       {workshops[dayKey]?.map((workshop, idx) => (
                         <WorkshopItem 
                           key={idx}
@@ -305,7 +305,7 @@ export default function Home() {
                       ))}
                       
                       {(!workshops[dayKey] || workshops[dayKey].length === 0) && (
-                        <div className="text-center py-1 text-[#3A3A3A]/50 italic text-xs">
+                        <div className="text-center py-1.5 text-[#3A3A3A]/50 italic text-sm">
                           No workshops scheduled
                         </div>
                       )}
@@ -317,14 +317,14 @@ export default function Home() {
               {/* Right column - can contain multiple days */}
               <div className="h-full flex flex-col">
                 {columnDays.right.map((dayKey) => (
-                  <div key={dayKey} className="mb-2 last:mb-0">
-                    <div className="text-center mb-1">
-                      <h2 className="text-lg font-serif text-[#3A3A3A]">
+                  <div key={dayKey} className="mb-3 last:mb-0">
+                    <div className="text-center mb-1.5">
+                      <h2 className="text-xl font-serif text-[#3A3A3A]">
                         {formatDayName(dayKey)}
                       </h2>
                     </div>
                     
-                    <div className="flex flex-col gap-[2px]">
+                    <div className="flex flex-col gap-1">
                       {workshops[dayKey]?.map((workshop, idx) => (
                         <WorkshopItem 
                           key={idx}
@@ -334,7 +334,7 @@ export default function Home() {
                       ))}
                       
                       {(!workshops[dayKey] || workshops[dayKey].length === 0) && (
-                        <div className="text-center py-1 text-[#3A3A3A]/50 italic text-xs">
+                        <div className="text-center py-1.5 text-[#3A3A3A]/50 italic text-sm">
                           No workshops scheduled
                         </div>
                       )}
@@ -365,9 +365,9 @@ interface WorkshopItemProps {
 
 function WorkshopItem({ title, time }: WorkshopItemProps) {
   return (
-    <div className="bg-white/90 rounded-md border border-[#E1D4C4] py-0.5 px-1 flex flex-col items-center text-center">
-      <h3 className="text-xs font-medium text-[#3A3A3A] leading-tight">{title}</h3>
-      <p className="text-[10px] text-[#7A6550]">{time}</p>
+    <div className="bg-white/90 rounded-md border border-[#E1D4C4] py-1 px-2 flex flex-col items-center text-center">
+      <h3 className="text-sm font-medium text-[#3A3A3A] leading-tight">{title}</h3>
+      <p className="text-xs text-[#7A6550]">{time}</p>
     </div>
   );
 }
