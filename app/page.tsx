@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { Calendar, ChevronLeft, ChevronRight, Download } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-import dynamic from 'next/dynamic';
+import { Download } from "lucide-react";
+import { useState, useRef } from "react";
 
 // Interface for a workshop item
 interface Workshop {
@@ -83,7 +81,7 @@ export default function Home() {
       const match = line.match(/^(\d+)\s+([^\t]+)\t([\d\.\-]+)\s+(.+)$/);
       
       if (match) {
-        const [_, dayNumber, day, time, title] = match;
+        const [, dayNumber, day, time, title] = match;
         const dayKey = `${dayNumber} ${day}`;
         
         if (!parsedWorkshops[dayKey]) {
@@ -202,7 +200,7 @@ export default function Home() {
           <div className="flex-grow p-4 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label htmlFor="csvInput" className="text-sm font-medium text-[#3A3A3A]">
-                Paste CSV Data (Format: "Day# DayName[tab]Time Title")
+                Paste CSV Data (Format: &quot;Day# DayName[tab]Time Title&quot;)
               </label>
               <div className="flex gap-2 items-center">
                 <button
@@ -268,8 +266,8 @@ export default function Home() {
               <ol className="list-decimal pl-5 space-y-1">
                 <li>Paste your workshop data in the format shown in the example</li>
                 <li>Make sure each workshop is on a new line</li>
-                <li>Format: "DayNumber DayName[tab]Time Workshop Title"</li>
-                <li>Click "Generate Schedule" to create the calendar</li>
+                <li>Format: &quot;DayNumber DayName[tab]Time Workshop Title&quot;</li>
+                <li>Click &quot;Generate Schedule&quot; to create the calendar</li>
               </ol>
             </div>
           </div>
@@ -289,7 +287,7 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-2 h-full p-2">
               {/* Left column - can contain multiple days */}
               <div className="h-full flex flex-col">
-                {columnDays.left.map((dayKey, index) => (
+                {columnDays.left.map((dayKey) => (
                   <div key={dayKey} className="mb-2 last:mb-0">
                     <div className="text-center mb-1">
                       <h2 className="text-lg font-serif text-[#3A3A3A]">
@@ -318,7 +316,7 @@ export default function Home() {
               
               {/* Right column - can contain multiple days */}
               <div className="h-full flex flex-col">
-                {columnDays.right.map((dayKey, index) => (
+                {columnDays.right.map((dayKey) => (
                   <div key={dayKey} className="mb-2 last:mb-0">
                     <div className="text-center mb-1">
                       <h2 className="text-lg font-serif text-[#3A3A3A]">
@@ -349,7 +347,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center h-full text-[#3A3A3A] bg-white/80 p-6">
               <p className="text-lg font-medium mb-2">No Schedule Generated</p>
               <p className="text-sm text-center max-w-xs">
-                Paste your workshop data in the input field on the left and click "Generate Schedule" to view the calendar.
+                Paste your workshop data in the input field on the left and click &quot;Generate Schedule&quot; to view the calendar.
               </p>
             </div>
           )}
