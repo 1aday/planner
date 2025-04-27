@@ -584,9 +584,9 @@ export default function Home() {
           }}
         >
           {availableDays.length > 0 ? (
-            <div className="grid grid-cols-2 gap-2 h-full p-2">
-              {/* Left column - can contain multiple days */}
-              <div className="h-full flex flex-col">
+            <div className={`h-full p-2 ${availableDays.length === 1 ? 'flex justify-center' : 'grid grid-cols-2 gap-2'}`}>
+              {/* Single day layout or Left column for multiple days */}
+              <div className={`h-full flex flex-col ${availableDays.length === 1 ? 'w-1/2' : ''}`}>
                 {columnDays.left.map((dayKey) => (
                   <div key={dayKey} className={`${sectionSpacing} last:mb-0`}>
                     <div className="text-center mb-1">
@@ -617,37 +617,39 @@ export default function Home() {
                 ))}
               </div>
               
-              {/* Right column - can contain multiple days */}
-              <div className="h-full flex flex-col">
-                {columnDays.right.map((dayKey) => (
-                  <div key={dayKey} className={`${sectionSpacing} last:mb-0`}>
-                    <div className="text-center mb-1">
-                      <h2 className={`${headerFontSize} font-serif text-[#3A3A3A]`}>
-                        {formatDayName(dayKey)}
-                      </h2>
-                    </div>
-                    
-                    <div className={`flex flex-col ${itemSpacing}`}>
-                      {workshops[dayKey]?.map((workshop, idx) => (
-                        <WorkshopItem 
-                          key={idx}
-                          title={workshop.title} 
-                          time={workshop.time}
-                          titleSize={titleFontSize}
-                          timeSize={timeFontSize}
-                          padding={itemPadding}
-                        />
-                      ))}
+              {/* Right column - only shown with multiple days */}
+              {availableDays.length > 1 && (
+                <div className="h-full flex flex-col">
+                  {columnDays.right.map((dayKey) => (
+                    <div key={dayKey} className={`${sectionSpacing} last:mb-0`}>
+                      <div className="text-center mb-1">
+                        <h2 className={`${headerFontSize} font-serif text-[#3A3A3A]`}>
+                          {formatDayName(dayKey)}
+                        </h2>
+                      </div>
                       
-                      {(!workshops[dayKey] || workshops[dayKey].length === 0) && (
-                        <div className="text-center py-1 text-[#3A3A3A]/50 italic text-sm">
-                          No workshops scheduled
-                        </div>
-                      )}
+                      <div className={`flex flex-col ${itemSpacing}`}>
+                        {workshops[dayKey]?.map((workshop, idx) => (
+                          <WorkshopItem 
+                            key={idx}
+                            title={workshop.title} 
+                            time={workshop.time}
+                            titleSize={titleFontSize}
+                            timeSize={timeFontSize}
+                            padding={itemPadding}
+                          />
+                        ))}
+                        
+                        {(!workshops[dayKey] || workshops[dayKey].length === 0) && (
+                          <div className="text-center py-1 text-[#3A3A3A]/50 italic text-sm">
+                            No workshops scheduled
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-[#3A3A3A] bg-white/80 p-4">
