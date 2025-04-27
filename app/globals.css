@@ -118,5 +118,13 @@
   }
   body {
     @apply bg-background text-foreground;
+    cursor: url('/wand-cursor.png') 5 5, url('/wand-cursor.png') 5 5, pointer;
   }
+  html, body, * {
+    cursor: url('/wand-cursor.png') 5 5, pointer !important;
+  }
+}
+
+.wand-cursor {
+  cursor: url('/wand-cursor.png') 5 5, pointer !important;
 }
