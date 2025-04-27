@@ -44,7 +44,7 @@ export default function Home() {
   const [timeWeight, setTimeWeight] = useState<"font-normal" | "font-medium" | "font-semibold">("font-medium");
   
   // Background image state
-  const [backgroundImage, setBackgroundImage] = useState<string>('/backgorund.png');
+  const [backgroundImage, setBackgroundImage] = useState<string>('/backgorund.webp');
   const [uploadingImage, setUploadingImage] = useState(false);
 
   // Function to distribute days between two columns
@@ -349,14 +349,14 @@ export default function Home() {
   
   // Function to reset background to default
   const resetBackground = () => {
-    setBackgroundImage('/backgorund.png');
+    setBackgroundImage('/backgorund.webp');
   };
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen w-full bg-[#FFF5F5] p-4">
       {/* Logo Header */}
       <div className="w-full flex justify-center mb-6">
-        <Image 
+        <Image
           src="/logo-2.png" 
           alt="Atölye Jeane Logo" 
           width={150} 
@@ -531,7 +531,7 @@ export default function Home() {
                             <button
                               className="py-1 px-2 text-xs border border-[#FFE0E0] rounded-md bg-[#FFF5F5] text-[#FF9090] hover:bg-[#FFE0E0]"
                               onClick={resetBackground}
-                              disabled={backgroundImage === '/backgorund.png'}
+                              disabled={backgroundImage === '/backgorund.webp'}
                             >
                               Reset
                             </button>
@@ -814,27 +814,6 @@ export default function Home() {
                     )}
                   </div>
                 )}
-                
-                {/* Download Button */}
-                <button 
-                  className={`mt-2 flex items-center justify-center gap-2 py-2 px-4 rounded-md transition-colors font-medium ${
-                    downloadStatus === "downloading" 
-                      ? "bg-gray-300 text-gray-600 cursor-wait" 
-                      : downloadStatus === "success"
-                      ? "bg-green-100 text-green-800 border border-green-200"
-                      : downloadStatus === "error"
-                      ? "bg-red-100 text-red-800 border border-red-200"
-                      : "bg-[#FFD0D0] text-[#3A3A3A] hover:bg-[#FFC0C0]"
-                  }`}
-                  onClick={downloadScheduleAsPNG}
-                  disabled={downloadStatus === "downloading"}
-                >
-                  <Download size={16} />
-                  {downloadStatus === "downloading" ? "Preparing download..." : 
-                   downloadStatus === "success" ? "Downloaded!" :
-                   downloadStatus === "error" ? "Error, try again" :
-                   "Download as PNG"}
-                </button>
               </div>
             )}
             
@@ -847,65 +826,32 @@ export default function Home() {
                       <li>Tab-separated: &quot;DayNumber DayName[tab]Time Workshop Title&quot;</li>
                       <li>Day-per-line: Day on its own line, followed by &quot;Time Workshop Title&quot; on subsequent lines</li>
                     </ul>
-                  </li>
+          </li>
                   <li>Make sure each entry is on a new line</li>
                   <li>Click &quot;Generate Schedule&quot; to create the calendar</li>
-                </ol>
+        </ol>
               </div>
             )}
           </div>
         </div>
       
-        {/* Right side - Schedule display with fixed 540x675 dimensions */}
-        <div 
-          ref={scheduleRef} 
-          className={`w-[540px] h-[675px] mx-auto lg:mx-0 relative rounded-xl overflow-hidden ${topPadding}`}
-          style={{ 
-            backgroundImage: `url(${backgroundImage})`, 
-            backgroundSize: 'cover', 
-            backgroundPosition: 'center'
-          }}
-        >
-          {availableDays.length > 0 ? (
-            <div className={`h-full p-2 ${availableDays.length === 1 ? 'flex justify-center' : 'grid grid-cols-2 gap-2'}`}>
-              {/* Single day layout or Left column for multiple days */}
-              <div className={`h-full flex flex-col ${availableDays.length === 1 ? 'w-1/2' : ''}`}>
-                {columnDays.left.map((dayKey) => (
-                  <div key={dayKey} className={`${sectionSpacing} last:mb-0`}>
-                    <div className="text-center mb-1">
-                      <h2 className={`${headerFontSize} ${headerWeight} font-serif text-[#3A3A3A]`}>
-                        {formatDayName(dayKey)}
-                      </h2>
-                    </div>
-                    
-                    <div className={`flex flex-col ${itemSpacing}`}>
-                      {workshops[dayKey]?.map((workshop, idx) => (
-                        <WorkshopItem 
-                          key={idx}
-                          title={workshop.title} 
-                          time={workshop.time}
-                          titleSize={titleFontSize}
-                          timeSize={timeFontSize}
-                          padding={itemPadding}
-                          titleWeight={titleWeight}
-                          timeWeight={timeWeight}
-                        />
-                      ))}
-                      
-                      {(!workshops[dayKey] || workshops[dayKey].length === 0) && (
-                        <div className="text-center py-1 text-[#3A3A3A]/50 italic text-sm">
-                          No workshops scheduled
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              {/* Right column - only shown with multiple days */}
-              {availableDays.length > 1 && (
-                <div className="h-full flex flex-col">
-                  {columnDays.right.map((dayKey) => (
+        {/* Right side with schedule and download button */}
+        <div className="lg:flex-1 flex flex-col items-end">
+          {/* Schedule display with fixed 540x675 dimensions */}
+          <div 
+            ref={scheduleRef} 
+            className={`w-[540px] h-[675px] mx-auto lg:mx-0 relative rounded-xl overflow-hidden ${topPadding}`}
+            style={{ 
+              backgroundImage: `url(${backgroundImage})`, 
+              backgroundSize: 'cover', 
+              backgroundPosition: 'center'
+            }}
+          >
+            {availableDays.length > 0 ? (
+              <div className={`h-full p-2 ${availableDays.length === 1 ? 'flex justify-center' : 'grid grid-cols-2 gap-2'}`}>
+                {/* Single day layout or Left column for multiple days */}
+                <div className={`h-full flex flex-col ${availableDays.length === 1 ? 'w-1/2' : ''}`}>
+                  {columnDays.left.map((dayKey) => (
                     <div key={dayKey} className={`${sectionSpacing} last:mb-0`}>
                       <div className="text-center mb-1">
                         <h2 className={`${headerFontSize} ${headerWeight} font-serif text-[#3A3A3A]`}>
@@ -936,15 +882,74 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full text-[#3A3A3A] bg-white/80 p-4">
-              <p className="text-lg font-medium mb-2">No Schedule Generated</p>
-              <p className="text-sm text-center max-w-xs">
-                Paste your workshop data in the input field on the left and click &quot;Generate Schedule&quot; to view the calendar.
-              </p>
-            </div>
+                
+                {/* Right column - only shown with multiple days */}
+                {availableDays.length > 1 && (
+                  <div className="h-full flex flex-col">
+                    {columnDays.right.map((dayKey) => (
+                      <div key={dayKey} className={`${sectionSpacing} last:mb-0`}>
+                        <div className="text-center mb-1">
+                          <h2 className={`${headerFontSize} ${headerWeight} font-serif text-[#3A3A3A]`}>
+                            {formatDayName(dayKey)}
+                          </h2>
+                        </div>
+                        
+                        <div className={`flex flex-col ${itemSpacing}`}>
+                          {workshops[dayKey]?.map((workshop, idx) => (
+                            <WorkshopItem 
+                              key={idx}
+                              title={workshop.title} 
+                              time={workshop.time}
+                              titleSize={titleFontSize}
+                              timeSize={timeFontSize}
+                              padding={itemPadding}
+                              titleWeight={titleWeight}
+                              timeWeight={timeWeight}
+                            />
+                          ))}
+                          
+                          {(!workshops[dayKey] || workshops[dayKey].length === 0) && (
+                            <div className="text-center py-1 text-[#3A3A3A]/50 italic text-sm">
+                              No workshops scheduled
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full text-[#3A3A3A] bg-white/80 p-4">
+                <p className="text-lg font-medium mb-2">No Schedule Generated</p>
+                <p className="text-sm text-center max-w-xs">
+                  Paste your workshop data in the input field on the left and click &quot;Generate Schedule&quot; to view the calendar.
+                </p>
+              </div>
+            )}
+          </div>
+          
+          {/* Download Button below schedule */}
+          {availableDays.length > 0 && (
+            <button 
+              className={`mt-4 flex items-center justify-center gap-2 py-2 px-4 rounded-md transition-colors font-medium ${
+                downloadStatus === "downloading" 
+                  ? "bg-gray-300 text-gray-600 cursor-wait" 
+                  : downloadStatus === "success"
+                  ? "bg-green-100 text-green-800 border border-green-200"
+                  : downloadStatus === "error"
+                  ? "bg-red-100 text-red-800 border border-red-200"
+                  : "bg-[#FFD0D0] text-[#3A3A3A] hover:bg-[#FFC0C0]"
+              }`}
+              onClick={downloadScheduleAsPNG}
+              disabled={downloadStatus === "downloading"}
+            >
+              <Download size={16} />
+              {downloadStatus === "downloading" ? "Preparing download..." : 
+               downloadStatus === "success" ? "Downloaded!" :
+               downloadStatus === "error" ? "Error, try again" :
+               "Download as PNG"}
+            </button>
           )}
         </div>
       </div>
