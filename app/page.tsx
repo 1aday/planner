@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Download, Plus, Minus } from "lucide-react";
 import { useState, useRef } from "react";
 
@@ -28,18 +29,19 @@ export default function Home() {
   const [inputCollapsed, setInputCollapsed] = useState(false);
   
   // States for display settings
-  const [headerFontSize, setHeaderFontSize] = useState<"text-lg" | "text-xl" | "text-2xl">("text-xl");
-  const [titleFontSize, setTitleFontSize] = useState<"text-xs" | "text-sm" | "text-base">("text-sm");
-  const [timeFontSize, setTimeFontSize] = useState<"text-[10px]" | "text-xs" | "text-sm">("text-xs");
-  const [itemSpacing, setItemSpacing] = useState<"gap-0.5" | "gap-1" | "gap-2">("gap-1");
-  const [sectionSpacing, setSectionSpacing] = useState<"mb-2" | "mb-3" | "mb-4">("mb-3");
-  const [itemPadding, setItemPadding] = useState<"py-0.5 px-1" | "py-1 px-2" | "py-1.5 px-2.5">("py-0.5 px-1");
+  const [headerFontSize, setHeaderFontSize] = useState<"text-lg" | "text-xl" | "text-2xl">("text-2xl");
+  const [titleFontSize, setTitleFontSize] = useState<"text-xs" | "text-sm" | "text-base">("text-base");
+  const [timeFontSize, setTimeFontSize] = useState<"text-[10px]" | "text-xs" | "text-sm">("text-sm");
+  const [itemSpacing, setItemSpacing] = useState<"gap-0.5" | "gap-1" | "gap-2">("gap-2");
+  const [sectionSpacing, setSectionSpacing] = useState<"mb-2" | "mb-3" | "mb-4">("mb-4");
+  const [itemPadding, setItemPadding] = useState<"py-0.5 px-1" | "py-1 px-2" | "py-1.5 px-2.5">("py-1.5 px-2.5");
+  const [topPadding, setTopPadding] = useState<"pt-2" | "pt-4" | "pt-6">("pt-2");
   const [showDisplaySettings, setShowDisplaySettings] = useState(false);
   
   // Font weight states
-  const [headerWeight, setHeaderWeight] = useState<"font-normal" | "font-medium" | "font-semibold" | "font-bold">("font-semibold");
-  const [titleWeight, setTitleWeight] = useState<"font-normal" | "font-medium" | "font-semibold" | "font-bold">("font-medium");
-  const [timeWeight, setTimeWeight] = useState<"font-normal" | "font-medium" | "font-semibold">("font-normal");
+  const [headerWeight, setHeaderWeight] = useState<"font-normal" | "font-medium" | "font-semibold" | "font-bold">("font-bold");
+  const [titleWeight, setTitleWeight] = useState<"font-normal" | "font-medium" | "font-semibold" | "font-bold">("font-semibold");
+  const [timeWeight, setTimeWeight] = useState<"font-normal" | "font-medium" | "font-semibold">("font-medium");
   
   // Background image state
   const [backgroundImage, setBackgroundImage] = useState<string>('/backgorund.png');
@@ -351,7 +353,19 @@ export default function Home() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-[#FFF5F5] p-4">
+    <div className="flex flex-col justify-center items-center min-h-screen w-full bg-[#FFF5F5] p-4">
+      {/* Logo Header */}
+      <div className="w-full flex justify-center mb-6">
+        <Image 
+          src="/logo-2.png" 
+          alt="Atölye Jeane Logo" 
+          width={150} 
+          height={60} 
+          className="h-auto"
+          priority
+        />
+      </div>
+      
       <div className="flex flex-col lg:flex-row max-w-6xl w-full gap-6">
         {/* Left side - CSV Input area */}
         <div className="lg:flex-1 bg-white/90 rounded-xl shadow-lg flex flex-col overflow-hidden border border-[#FFE0E0]">
@@ -463,6 +477,35 @@ export default function Home() {
                             <button
                               className="p-1 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
                               onClick={increaseBothFontSizes}
+                            >
+                              <Plus size={14} />
+                            </button>
+                          </div>
+                        </div>
+                        
+                        {/* Top Padding Control */}
+                        <div className="flex flex-col gap-1 border-b border-[#FFE0E0] pb-2 mb-1">
+                          <label className="text-xs text-[#FF9090] font-medium">Top Padding</label>
+                          <div className="flex items-center">
+                            <button
+                              className="p-1 bg-[#FFE0E0] rounded-l-md hover:bg-[#FFD0D0]"
+                              onClick={() => setTopPadding(current => 
+                                current === "pt-2" ? "pt-2" : 
+                                current === "pt-4" ? "pt-2" : "pt-4"
+                              )}
+                            >
+                              <Minus size={14} />
+                            </button>
+                            <div className="px-2 bg-white border-y border-[#FFE0E0] flex-1 text-center text-sm">
+                              {topPadding === "pt-2" ? "Small" : 
+                               topPadding === "pt-4" ? "Medium" : "Large"}
+                            </div>
+                            <button
+                              className="p-1 bg-[#FFE0E0] rounded-r-md hover:bg-[#FFD0D0]"
+                              onClick={() => setTopPadding(current => 
+                                current === "pt-2" ? "pt-4" : 
+                                current === "pt-4" ? "pt-6" : "pt-6"
+                              )}
                             >
                               <Plus size={14} />
                             </button>
@@ -816,7 +859,7 @@ export default function Home() {
         {/* Right side - Schedule display with fixed 540x675 dimensions */}
         <div 
           ref={scheduleRef} 
-          className="w-[540px] h-[675px] mx-auto lg:mx-0 relative rounded-xl overflow-hidden" 
+          className={`w-[540px] h-[675px] mx-auto lg:mx-0 relative rounded-xl overflow-hidden ${topPadding}`}
           style={{ 
             backgroundImage: `url(${backgroundImage})`, 
             backgroundSize: 'cover', 
