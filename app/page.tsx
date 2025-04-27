@@ -35,6 +35,15 @@ export default function Home() {
   const [sectionSpacing, setSectionSpacing] = useState<"mb-2" | "mb-3" | "mb-4">("mb-3");
   const [itemPadding, setItemPadding] = useState<"py-0.5 px-1" | "py-1 px-2" | "py-1.5 px-2.5">("py-0.5 px-1");
   const [showDisplaySettings, setShowDisplaySettings] = useState(false);
+  
+  // Font weight states
+  const [headerWeight, setHeaderWeight] = useState<"font-normal" | "font-medium" | "font-semibold" | "font-bold">("font-semibold");
+  const [titleWeight, setTitleWeight] = useState<"font-normal" | "font-medium" | "font-semibold" | "font-bold">("font-medium");
+  const [timeWeight, setTimeWeight] = useState<"font-normal" | "font-medium" | "font-semibold">("font-normal");
+  
+  // Background image state
+  const [backgroundImage, setBackgroundImage] = useState<string>('/backgorund.png');
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Function to distribute days between two columns
   // Try to balance by number of workshops
@@ -262,6 +271,85 @@ export default function Home() {
     }
   };
 
+  // Function to increase both title and time font sizes together
+  const increaseBothFontSizes = () => {
+    setTitleFontSize(current => {
+      if (current === "text-xs") return "text-sm";
+      if (current === "text-sm") return "text-base";
+      return "text-base";
+    });
+    
+    setTimeFontSize(current => {
+      if (current === "text-[10px]") return "text-xs";
+      if (current === "text-xs") return "text-sm";
+      return "text-sm";
+    });
+  };
+  
+  // Function to decrease both title and time font sizes together
+  const decreaseBothFontSizes = () => {
+    setTitleFontSize(current => {
+      if (current === "text-base") return "text-sm";
+      if (current === "text-sm") return "text-xs";
+      return "text-xs";
+    });
+    
+    setTimeFontSize(current => {
+      if (current === "text-sm") return "text-xs";
+      if (current === "text-xs") return "text-[10px]";
+      return "text-[10px]";
+    });
+  };
+  
+  // Helper function to get current font size level
+  const getBothFontSizesLevel = (): string => {
+    if (titleFontSize === "text-xs" || timeFontSize === "text-[10px]") {
+      return "Small";
+    } else if (titleFontSize === "text-sm" || timeFontSize === "text-xs") {
+      return "Medium";
+    } else {
+      return "Large";
+    }
+  };
+
+  // Function to handle background image upload
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    // Check if file is an image
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload an image file');
+      return;
+    }
+    
+    // Check file size (limit to 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image size should be less than 5MB');
+      return;
+    }
+    
+    setUploadingImage(true);
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        setBackgroundImage(e.target.result as string);
+        setUploadingImage(false);
+      }
+    };
+    reader.onerror = () => {
+      alert('Error reading file');
+      setUploadingImage(false);
+    };
+    reader.readAsDataURL(file);
+  };
+  
+  // Function to reset background to default
+  const resetBackground = () => {
+    setBackgroundImage('/backgorund.png');
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen w-full bg-[#FDF2E7] p-4">
       <div className="flex flex-col lg:flex-row max-w-6xl w-full gap-6">
@@ -359,172 +447,324 @@ export default function Home() {
                     </div>
                     
                     {showDisplaySettings && (
-                      <div className="flex flex-col gap-3">
-                        <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#7A6550]">Day Header Font Size</label>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-1 border-b border-[#E1D4C4] pb-2 mb-1">
+                          <label className="text-xs text-[#7A6550] font-medium">All Workshop Text Size</label>
                           <div className="flex items-center">
                             <button
                               className="p-1 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
-                              onClick={() => setHeaderFontSize(current => 
-                                current === "text-lg" ? "text-lg" : 
-                                current === "text-xl" ? "text-lg" : "text-xl"
-                              )}
+                              onClick={decreaseBothFontSizes}
                             >
                               <Minus size={14} />
                             </button>
                             <div className="px-2 bg-white border-y border-[#E1D4C4] flex-1 text-center text-sm">
-                              {headerFontSize === "text-lg" ? "Small" : 
-                               headerFontSize === "text-xl" ? "Medium" : "Large"}
+                              {getBothFontSizesLevel()}
                             </div>
                             <button
                               className="p-1 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
-                              onClick={() => setHeaderFontSize(current => 
-                                current === "text-lg" ? "text-xl" : 
-                                current === "text-xl" ? "text-2xl" : "text-2xl"
-                              )}
+                              onClick={increaseBothFontSizes}
                             >
                               <Plus size={14} />
                             </button>
                           </div>
                         </div>
                         
-                        <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#7A6550]">Workshop Title Font Size</label>
-                          <div className="flex items-center">
-                            <button
-                              className="p-1 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
-                              onClick={() => setTitleFontSize(current => 
-                                current === "text-xs" ? "text-xs" : 
-                                current === "text-sm" ? "text-xs" : "text-sm"
-                              )}
-                            >
-                              <Minus size={14} />
-                            </button>
-                            <div className="px-2 bg-white border-y border-[#E1D4C4] flex-1 text-center text-sm">
-                              {titleFontSize === "text-xs" ? "Small" : 
-                               titleFontSize === "text-sm" ? "Medium" : "Large"}
+                        {/* Background Image Upload */}
+                        <div className="flex flex-col gap-1 border-b border-[#E1D4C4] pb-2 mb-1">
+                          <label className="text-xs text-[#7A6550] font-medium">Background Image</label>
+                          <div className="flex items-center gap-2">
+                            <div className="relative flex-1">
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                                disabled={uploadingImage}
+                              />
+                              <div className="w-full py-1 px-2 text-xs border border-[#E1D4C4] rounded-md bg-white text-[#3A3A3A] flex justify-center items-center">
+                                {uploadingImage ? 'Uploading...' : 'Upload Custom Image'}
+                              </div>
                             </div>
                             <button
-                              className="p-1 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
-                              onClick={() => setTitleFontSize(current => 
-                                current === "text-xs" ? "text-sm" : 
-                                current === "text-sm" ? "text-base" : "text-base"
-                              )}
+                              className="py-1 px-2 text-xs border border-[#E1D4C4] rounded-md bg-[#F5EBE0] text-[#7A6550] hover:bg-[#E1D4C4]"
+                              onClick={resetBackground}
+                              disabled={backgroundImage === '/backgorund.png'}
                             >
-                              <Plus size={14} />
+                              Reset
                             </button>
                           </div>
-                        </div>
-                        
-                        <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#7A6550]">Time Font Size</label>
-                          <div className="flex items-center">
-                            <button
-                              className="p-1 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
-                              onClick={() => setTimeFontSize(current => 
-                                current === "text-[10px]" ? "text-[10px]" : 
-                                current === "text-xs" ? "text-[10px]" : "text-xs"
-                              )}
-                            >
-                              <Minus size={14} />
-                            </button>
-                            <div className="px-2 bg-white border-y border-[#E1D4C4] flex-1 text-center text-sm">
-                              {timeFontSize === "text-[10px]" ? "Small" : 
-                               timeFontSize === "text-xs" ? "Medium" : "Large"}
-                            </div>
-                            <button
-                              className="p-1 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
-                              onClick={() => setTimeFontSize(current => 
-                                current === "text-[10px]" ? "text-xs" : 
-                                current === "text-xs" ? "text-sm" : "text-sm"
-                              )}
-                            >
-                              <Plus size={14} />
-                            </button>
+                          <div className="text-[10px] text-[#7A6550] mt-0.5">
+                            Recommended size: 1080×675px, max 5MB
                           </div>
                         </div>
-                        
-                        <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#7A6550]">Spacing Between Workshops</label>
-                          <div className="flex items-center">
-                            <button
-                              className="p-1 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
-                              onClick={() => setItemSpacing(current => 
-                                current === "gap-0.5" ? "gap-0.5" : 
-                                current === "gap-1" ? "gap-0.5" : "gap-1"
-                              )}
-                            >
-                              <Minus size={14} />
-                            </button>
-                            <div className="px-2 bg-white border-y border-[#E1D4C4] flex-1 text-center text-sm">
-                              {itemSpacing === "gap-0.5" ? "Compact" : 
-                               itemSpacing === "gap-1" ? "Normal" : "Spacious"}
+
+                        {/* Two column grid for controls */}
+                        <div className="grid grid-cols-2 gap-x-2 gap-y-1.5">
+                          {/* Day Header Font Size */}
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[10px] text-[#7A6550]">Day Header Size</label>
+                            <div className="flex items-center">
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                onClick={() => setHeaderFontSize(current => 
+                                  current === "text-lg" ? "text-lg" : 
+                                  current === "text-xl" ? "text-lg" : "text-xl"
+                                )}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                                {headerFontSize === "text-lg" ? "Small" : 
+                                 headerFontSize === "text-xl" ? "Medium" : "Large"}
+                              </div>
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                onClick={() => setHeaderFontSize(current => 
+                                  current === "text-lg" ? "text-xl" : 
+                                  current === "text-xl" ? "text-2xl" : "text-2xl"
+                                )}
+                              >
+                                <Plus size={12} />
+                              </button>
                             </div>
-                            <button
-                              className="p-1 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
-                              onClick={() => setItemSpacing(current => 
-                                current === "gap-0.5" ? "gap-1" : 
-                                current === "gap-1" ? "gap-2" : "gap-2"
-                              )}
-                            >
-                              <Plus size={14} />
-                            </button>
                           </div>
-                        </div>
-                        
-                        <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#7A6550]">Workshop Padding</label>
-                          <div className="flex items-center">
-                            <button
-                              className="p-1 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
-                              onClick={() => setItemPadding(current => 
-                                current === "py-0.5 px-1" ? "py-0.5 px-1" : 
-                                current === "py-1 px-2" ? "py-0.5 px-1" : "py-1 px-2"
-                              )}
-                            >
-                              <Minus size={14} />
-                            </button>
-                            <div className="px-2 bg-white border-y border-[#E1D4C4] flex-1 text-center text-sm">
-                              {itemPadding === "py-0.5 px-1" ? "Compact" : 
-                               itemPadding === "py-1 px-2" ? "Normal" : "Spacious"}
+
+                          {/* Day Header Font Weight */}
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[10px] text-[#7A6550]">Day Header Weight</label>
+                            <div className="flex items-center">
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                onClick={() => setHeaderWeight(current => 
+                                  current === "font-normal" ? "font-normal" : 
+                                  current === "font-medium" ? "font-normal" : 
+                                  current === "font-semibold" ? "font-medium" : "font-semibold"
+                                )}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                                {headerWeight === "font-normal" ? "Normal" : 
+                                 headerWeight === "font-medium" ? "Medium" : 
+                                 headerWeight === "font-semibold" ? "Semibold" : "Bold"}
+                              </div>
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                onClick={() => setHeaderWeight(current => 
+                                  current === "font-normal" ? "font-medium" : 
+                                  current === "font-medium" ? "font-semibold" : 
+                                  current === "font-semibold" ? "font-bold" : "font-bold"
+                                )}
+                              >
+                                <Plus size={12} />
+                              </button>
                             </div>
-                            <button
-                              className="p-1 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
-                              onClick={() => setItemPadding(current => 
-                                current === "py-0.5 px-1" ? "py-1 px-2" : 
-                                current === "py-1 px-2" ? "py-1.5 px-2.5" : "py-1.5 px-2.5"
-                              )}
-                            >
-                              <Plus size={14} />
-                            </button>
                           </div>
-                        </div>
-                        
-                        <div className="flex flex-col gap-1">
-                          <label className="text-xs text-[#7A6550]">Section Spacing</label>
-                          <div className="flex items-center">
-                            <button
-                              className="p-1 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
-                              onClick={() => setSectionSpacing(current => 
-                                current === "mb-2" ? "mb-2" : 
-                                current === "mb-3" ? "mb-2" : "mb-3"
-                              )}
-                            >
-                              <Minus size={14} />
-                            </button>
-                            <div className="px-2 bg-white border-y border-[#E1D4C4] flex-1 text-center text-sm">
-                              {sectionSpacing === "mb-2" ? "Compact" : 
-                               sectionSpacing === "mb-3" ? "Normal" : "Spacious"}
+
+                          {/* Title Font Size */}
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[10px] text-[#7A6550]">Title Size</label>
+                            <div className="flex items-center">
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                onClick={() => setTitleFontSize(current => 
+                                  current === "text-xs" ? "text-xs" : 
+                                  current === "text-sm" ? "text-xs" : "text-sm"
+                                )}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                                {titleFontSize === "text-xs" ? "Small" : 
+                                 titleFontSize === "text-sm" ? "Medium" : "Large"}
+                              </div>
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                onClick={() => setTitleFontSize(current => 
+                                  current === "text-xs" ? "text-sm" : 
+                                  current === "text-sm" ? "text-base" : "text-base"
+                                )}
+                              >
+                                <Plus size={12} />
+                              </button>
                             </div>
-                            <button
-                              className="p-1 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
-                              onClick={() => setSectionSpacing(current => 
-                                current === "mb-2" ? "mb-3" : 
-                                current === "mb-3" ? "mb-4" : "mb-4"
-                              )}
-                            >
-                              <Plus size={14} />
-                            </button>
+                          </div>
+
+                          {/* Title Weight */}
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[10px] text-[#7A6550]">Title Weight</label>
+                            <div className="flex items-center">
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                onClick={() => setTitleWeight(current => 
+                                  current === "font-normal" ? "font-normal" : 
+                                  current === "font-medium" ? "font-normal" : 
+                                  current === "font-semibold" ? "font-medium" : "font-semibold"
+                                )}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                                {titleWeight === "font-normal" ? "Normal" : 
+                                 titleWeight === "font-medium" ? "Medium" : 
+                                 titleWeight === "font-semibold" ? "Semibold" : "Bold"}
+                              </div>
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                onClick={() => setTitleWeight(current => 
+                                  current === "font-normal" ? "font-medium" : 
+                                  current === "font-medium" ? "font-semibold" : 
+                                  current === "font-semibold" ? "font-bold" : "font-bold"
+                                )}
+                              >
+                                <Plus size={12} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Time Font Size */}
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[10px] text-[#7A6550]">Time Size</label>
+                            <div className="flex items-center">
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                onClick={() => setTimeFontSize(current => 
+                                  current === "text-[10px]" ? "text-[10px]" : 
+                                  current === "text-xs" ? "text-[10px]" : "text-xs"
+                                )}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                                {timeFontSize === "text-[10px]" ? "Small" : 
+                                 timeFontSize === "text-xs" ? "Medium" : "Large"}
+                              </div>
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                onClick={() => setTimeFontSize(current => 
+                                  current === "text-[10px]" ? "text-xs" : 
+                                  current === "text-xs" ? "text-sm" : "text-sm"
+                                )}
+                              >
+                                <Plus size={12} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Time Weight */}
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[10px] text-[#7A6550]">Time Weight</label>
+                            <div className="flex items-center">
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                onClick={() => setTimeWeight(current => 
+                                  current === "font-normal" ? "font-normal" : 
+                                  current === "font-medium" ? "font-normal" : "font-medium"
+                                )}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                                {timeWeight === "font-normal" ? "Normal" : 
+                                 timeWeight === "font-medium" ? "Medium" : "Semibold"}
+                              </div>
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                onClick={() => setTimeWeight(current => 
+                                  current === "font-normal" ? "font-medium" : 
+                                  current === "font-medium" ? "font-semibold" : "font-semibold"
+                                )}
+                              >
+                                <Plus size={12} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Item Spacing */}
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[10px] text-[#7A6550]">Item Spacing</label>
+                            <div className="flex items-center">
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                onClick={() => setItemSpacing(current => 
+                                  current === "gap-0.5" ? "gap-0.5" : 
+                                  current === "gap-1" ? "gap-0.5" : "gap-1"
+                                )}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                                {itemSpacing === "gap-0.5" ? "Compact" : 
+                                 itemSpacing === "gap-1" ? "Normal" : "Spacious"}
+                              </div>
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                onClick={() => setItemSpacing(current => 
+                                  current === "gap-0.5" ? "gap-1" : 
+                                  current === "gap-1" ? "gap-2" : "gap-2"
+                                )}
+                              >
+                                <Plus size={12} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Item Padding */}
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[10px] text-[#7A6550]">Item Padding</label>
+                            <div className="flex items-center">
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                onClick={() => setItemPadding(current => 
+                                  current === "py-0.5 px-1" ? "py-0.5 px-1" : 
+                                  current === "py-1 px-2" ? "py-0.5 px-1" : "py-1 px-2"
+                                )}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                                {itemPadding === "py-0.5 px-1" ? "Compact" : 
+                                 itemPadding === "py-1 px-2" ? "Normal" : "Spacious"}
+                              </div>
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                onClick={() => setItemPadding(current => 
+                                  current === "py-0.5 px-1" ? "py-1 px-2" : 
+                                  current === "py-1 px-2" ? "py-1.5 px-2.5" : "py-1.5 px-2.5"
+                                )}
+                              >
+                                <Plus size={12} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Section Spacing */}
+                          <div className="flex flex-col gap-0.5">
+                            <label className="text-[10px] text-[#7A6550]">Section Spacing</label>
+                            <div className="flex items-center">
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-l-md hover:bg-[#D1C4B4]"
+                                onClick={() => setSectionSpacing(current => 
+                                  current === "mb-2" ? "mb-2" : 
+                                  current === "mb-3" ? "mb-2" : "mb-3"
+                                )}
+                              >
+                                <Minus size={12} />
+                              </button>
+                              <div className="px-1 bg-white border-y border-[#E1D4C4] flex-1 text-center text-xs">
+                                {sectionSpacing === "mb-2" ? "Compact" : 
+                                 sectionSpacing === "mb-3" ? "Normal" : "Spacious"}
+                              </div>
+                              <button
+                                className="p-0.5 bg-[#E1D4C4] rounded-r-md hover:bg-[#D1C4B4]"
+                                onClick={() => setSectionSpacing(current => 
+                                  current === "mb-2" ? "mb-3" : 
+                                  current === "mb-3" ? "mb-4" : "mb-4"
+                                )}
+                              >
+                                <Plus size={12} />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -578,7 +818,7 @@ export default function Home() {
           ref={scheduleRef} 
           className="w-[540px] h-[675px] mx-auto lg:mx-0 relative rounded-xl overflow-hidden" 
           style={{ 
-            backgroundImage: 'url(/backgorund.png)', 
+            backgroundImage: `url(${backgroundImage})`, 
             backgroundSize: 'cover', 
             backgroundPosition: 'center'
           }}
@@ -590,7 +830,7 @@ export default function Home() {
                 {columnDays.left.map((dayKey) => (
                   <div key={dayKey} className={`${sectionSpacing} last:mb-0`}>
                     <div className="text-center mb-1">
-                      <h2 className={`${headerFontSize} font-serif text-[#3A3A3A]`}>
+                      <h2 className={`${headerFontSize} ${headerWeight} font-serif text-[#3A3A3A]`}>
                         {formatDayName(dayKey)}
                       </h2>
                     </div>
@@ -604,6 +844,8 @@ export default function Home() {
                           titleSize={titleFontSize}
                           timeSize={timeFontSize}
                           padding={itemPadding}
+                          titleWeight={titleWeight}
+                          timeWeight={timeWeight}
                         />
                       ))}
                       
@@ -623,7 +865,7 @@ export default function Home() {
                   {columnDays.right.map((dayKey) => (
                     <div key={dayKey} className={`${sectionSpacing} last:mb-0`}>
                       <div className="text-center mb-1">
-                        <h2 className={`${headerFontSize} font-serif text-[#3A3A3A]`}>
+                        <h2 className={`${headerFontSize} ${headerWeight} font-serif text-[#3A3A3A]`}>
                           {formatDayName(dayKey)}
                         </h2>
                       </div>
@@ -637,6 +879,8 @@ export default function Home() {
                             titleSize={titleFontSize}
                             timeSize={timeFontSize}
                             padding={itemPadding}
+                            titleWeight={titleWeight}
+                            timeWeight={timeWeight}
                           />
                         ))}
                         
@@ -672,6 +916,8 @@ interface WorkshopItemProps {
   titleSize?: string;
   timeSize?: string;
   padding?: string;
+  titleWeight?: string;
+  timeWeight?: string;
 }
 
 function WorkshopItem({ 
@@ -679,12 +925,14 @@ function WorkshopItem({
   time, 
   titleSize = "text-sm", 
   timeSize = "text-xs",
-  padding = "py-1 px-2" 
+  padding = "py-0.5 px-1",
+  titleWeight = "font-medium",
+  timeWeight = "font-normal"
 }: WorkshopItemProps) {
   return (
     <div className={`bg-white/90 rounded-md border border-[#E1D4C4] ${padding} flex flex-col items-center text-center`}>
-      <h3 className={`${titleSize} font-medium text-[#3A3A3A] leading-tight`}>{title}</h3>
-      <p className={`${timeSize} text-[#7A6550]`}>{time}</p>
+      <h3 className={`${titleSize} ${titleWeight} text-[#3A3A3A] leading-tight`}>{title}</h3>
+      <p className={`${timeSize} ${timeWeight} text-[#7A6550]`}>{time}</p>
     </div>
   );
 }
